@@ -87,7 +87,7 @@ public class BankSystem {
                     if(exit)
                     {
                         C[ac_no].deposit(amount,type,"Deposit");
-                        C[0].transcationFee(amount*0.01,type,"Deposit Fee");
+                        C[0].transactionFee(amount,type,"Deposit Fee");
 
                     }
                     else{
@@ -112,8 +112,8 @@ public class BankSystem {
                         exit=C[ac_no].checkAc(type);
                     }
                     if(exit)
-                    {  C[ac_no].withdrawal(amount*0.99,type,"Withdraw");
-                        C[0].transcationFee(amount*0.01,type,"Withdraw Fee");
+                    {  C[ac_no].withdrawal(amount,type,"Withdraw");
+                        C[0].transactionFee(amount,type,"Withdraw Fee");
 
                     }
                     else{

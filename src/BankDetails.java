@@ -47,9 +47,16 @@ public class BankDetails {
         System.out.print(UserName);
     }
     public void showBalance(int type) {
-
-        double balacnce=account[type].getBalance();
-        System.out.print("Your account Balance is : "+balacnce);
+        int num=0;
+        for(int i=0;i<accountCounter;i++)
+        {
+            if(account[i].getCurrency().equals(getType(type)))
+            {
+                num=i;
+            }
+        }
+        double balance=account[num].getBalance();
+        System.out.print("Your account Balance is : "+balance);
     }
 
     public void showTransaction() {
@@ -72,19 +79,21 @@ public class BankDetails {
         {
         account[ac].setBalance(amount*0.99);
         transcation[transcationCounter]= new Transaction(UserName,date.toString(),Currency,operation,amount*0.99);
-                transcationCounter++;
+        transcationCounter++;
+        transcation[transcationCounter]= new Transaction(UserName,date.toString(),Currency,"Deposit Fee",amount*0.01);
+        transcationCounter++;
         }
         System.out.println("Despite succeed!Now you balance is : "+account[ac].getBalance()+" in "+account[ac].getCurrency());
 
     }
-    public void transcationFee(double amount, int type,String operation) {
+    public void transactionFee(double amount, int type, String operation) {
         int ac=searchAc(type);
         Date date = new Date();
         String Currency=getType(type);
         if(ac!=-1)
         {
-            account[ac].setBalance(amount*0.99);
-            transcation[transcationCounter]= new Transaction(UserName,date.toString(),Currency,operation,amount*0.99);
+            account[ac].setBalance(amount*0.01);
+            transcation[transcationCounter]= new Transaction(UserName,date.toString(),Currency,operation,amount*0.01);
             transcationCounter++;
         }
 
@@ -97,7 +106,9 @@ public class BankDetails {
         if(ac!=-1) {
             if (account[ac].getBalance() - amount*1.01 >= 0) {
                 account[ac].setBalance(-amount*1.01);
-                transcation[transcationCounter] = new Transaction(UserName, date.toString(), Currency, operation, amount*1.01);
+                transcation[transcationCounter] = new Transaction(UserName, date.toString(), Currency, operation, amount);
+                transcationCounter++;
+                transcation[transcationCounter] = new Transaction(UserName, date.toString(), Currency, "Withdraw Fee", amount*0.01);
                 transcationCounter++;
             }
             else
