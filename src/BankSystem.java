@@ -1,3 +1,4 @@
+import java.text.ParseException;
 import java.util.Scanner;
 
 /**
@@ -7,7 +8,7 @@ public class BankSystem {
     static int MAX_SIZE = 999;
     static int accountCounter = 1;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
         Scanner sc = new Scanner(System.in);
         //create initial accounts
 
@@ -70,27 +71,22 @@ public class BankSystem {
                 case 2:
                     System.out.print("Enter Your ID: ");
                     int ac_no = sc.nextInt();
-                    int ac_no_other =0;
+                    int ac_no_other = 0;
                     System.out.print("Enter Your type of Currency : ");
                     type = sc.nextInt();
                     System.out.print("Enter the amount of money : ");
                     int amount = sc.nextInt();
-                    boolean exit=false;
-                    if(ac_no<0||ac_no>=accountCounter)
-                    {
+                    boolean exit = false;
+                    if (ac_no < 0 || ac_no >= accountCounter) {
                         System.out.println("Deposit failed! Account doesn't exist..!!");
+                    } else {
+                        exit = C[ac_no].checkAc(type);
                     }
-                    else
-                    {
-                        exit=C[ac_no].checkAc(type);
-                    }
-                    if(exit)
-                    {
-                        C[ac_no].deposit(amount,type,"Deposit");
-                        C[0].transactionFee(amount,type,"Deposit Fee");
+                    if (exit) {
+                        C[ac_no].deposit(amount, type, "Deposit");
+                        //C[0].transactionFee(amount,type,"Deposit Fee");
 
-                    }
-                    else{
+                    } else {
                         System.out.println("Deposit failed! You do no have this type of Currency's account..!!");
                     }
 
@@ -102,56 +98,65 @@ public class BankSystem {
                     type = sc.nextInt();
                     System.out.print("Enter the amount of money : ");
                     amount = sc.nextInt();
-                    exit=false;
-                    if(ac_no<0||ac_no>=accountCounter)
-                    {
+                    exit = false;
+                    if (ac_no < 0 || ac_no >= accountCounter) {
                         System.out.println("Withdraw failed! Account doesn't exist..!!");
+                    } else {
+                        exit = C[ac_no].checkAc(type);
                     }
-                    else
-                    {
-                        exit=C[ac_no].checkAc(type);
-                    }
-                    if(exit)
-                    {  C[ac_no].withdrawal(amount,type,"Withdraw");
-                        C[0].transactionFee(amount,type,"Withdraw Fee");
+                    if (exit) {
+                        if (C[ac_no].withdrawal(amount, type, "Withdraw")) {
+                            C[0].transactionFee(amount, type, "Withdraw Fee");
+                        }
 
-                    }
-                    else{
+
+                    } else {
                         System.out.println("Deposit failed! You do no have this type of Currency's account..!!");
                     }
                     break;
                 case 4:
-                    int action=0;
+                    boolean exit_me = false;
+                    boolean exit_you = false;
                     System.out.print("Enter your Account No : ");
                     ac_no = sc.nextInt();
                     System.out.print("Enter the Account you want to transfer : ");
-                    ac_no_other= sc.nextInt();
+                    ac_no_other = sc.nextInt();
                     System.out.print("Enter the type of Currency : ");
                     type = sc.nextInt();
                     System.out.print("Enter the amount of money : ");
                     amount = sc.nextInt();
-                    System.out.print("Select action\n1.Create Account \n2.Money deposit");
-                    action = sc.nextInt();
+                    if (ac_no < 0 || ac_no >= accountCounter) {
+                        System.out.println("Transfer failed! Account doesn't exist..!!");
+                    }
+                    else {
+                        exit_me = C[ac_no].checkAc(type);
+                        exit_you = C[ac_no_other].checkAc(type);
+                    }
+                    if (exit_me && exit_you) {
+                        if (C[ac_no].withdrawal(amount, type, "Transfer out")) {
+                            C[ac_no_other].deposit(amount, type, "Transfer in");
+                            C[0].transactionFee(amount, type, "Transfer Fee");
+                        }
+
+
+                    } else {
+                        System.out.println("Transfer failed! You or you target did not match the type of Currency..!!");
+                    }
                     break;
                 case 5:
                     System.out.println("Enter Account No... : ");
                     ac_no = sc.nextInt();
                     System.out.println("Enter Account Currency... : ");
-                    type=sc.nextInt();
-                    exit=false;
-                    if(ac_no<0||ac_no>=accountCounter)
-                    {
+                    type = sc.nextInt();
+                    exit = false;
+                    if (ac_no < 0 || ac_no >= accountCounter) {
                         System.out.println("Checking the Balance failed! ID doesn't exist..!!");
+                    } else {
+                        exit = C[ac_no].checkAc(type);
                     }
-                    else
-                    {
-                        exit=C[ac_no].checkAc(type);
-                    }
-                    if(exit)
-                    {
+                    if (exit) {
                         C[ac_no].showBalance(type);
-                    }
-                    else{
+                    } else {
                         System.out.println("Checking the Balance failed! Account doesn't exist..!!");
                     }
                     break;
@@ -159,12 +164,9 @@ public class BankSystem {
                     System.out.println("Enter Account ID... : ");
                     ac_no = sc.nextInt();
 
-                    if(ac_no<0||ac_no>=accountCounter)
-                    {
+                    if (ac_no < 0 || ac_no >= accountCounter) {
                         System.out.println("Checking the Transaction failed! ID doesn't exist..!! ID doesn't exist..!!");
-                    }
-                    else
-                    {
+                    } else {
                         C[ac_no].showTransaction();
 
                     }

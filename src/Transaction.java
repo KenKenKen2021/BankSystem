@@ -1,5 +1,10 @@
 public class Transaction {
     private final String Name;
+
+    public String getDate() {
+        return Date;
+    }
+
     private final String Date;
     private final String Currency;
     private final String Operation;
@@ -14,8 +19,8 @@ public class Transaction {
     }
     public void showTranscation()
     {
-        System.out.println("Client Name: "+Name);
-        System.out.println("Date"+"                                    "+"Currency"+"        "+"    Operation"+"           "+"Amount");
+
+
         System.out.println(Date+"              "+Currency+"                "+Operation+"             "+Amount);
 
     }

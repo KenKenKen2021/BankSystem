@@ -1,3 +1,6 @@
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -12,7 +15,9 @@ public class BankDetails {
     private final Account[] account;
 
     private int accountCounter=0;
-    private int transcationCounter=0;
+    private int transactionCounter =0;
+
+    private int maxWithdraw =0;
     public BankDetails(String userName) {
         transcation=new Transaction[MAX_SIZE];
         UserName = userName;
@@ -60,11 +65,15 @@ public class BankDetails {
     }
 
     public void showTransaction() {
-        if(transcationCounter==0)
+
+        if(transactionCounter ==0)
         {
-            System.out.println("No transaction");
+            System.out.println("No transaction to show !");
+            return;
         }
-        for (int i=0;i<transcationCounter;i++)
+        System.out.println("Client Name:  "+UserName);
+        System.out.println("Date"+"                                    "+"Currency"+"        "+"    Operation"+"                "+"Amount");
+        for (int i = 0; i< transactionCounter; i++)
         {
             transcation[i].showTranscation();
         }
@@ -77,13 +86,13 @@ public class BankDetails {
         String Currency=getType(type);
         if(ac!=-1)
         {
-        account[ac].setBalance(amount*0.99);
-        transcation[transcationCounter]= new Transaction(UserName,date.toString(),Currency,operation,amount*0.99);
-        transcationCounter++;
-        transcation[transcationCounter]= new Transaction(UserName,date.toString(),Currency,"Deposit Fee",amount*0.01);
-        transcationCounter++;
+        account[ac].setBalance(amount);
+        transcation[transactionCounter]= new Transaction(UserName,date.toString(),Currency,operation,amount);
+        transactionCounter++;
+        //transcation[transcationCounter]= new Transaction(UserName,date.toString(),Currency,"Deposit Fee",amount*0.01);
+       // transcationCounter++;
         }
-        System.out.println("Despite succeed!Now you balance is : "+account[ac].getBalance()+" in "+account[ac].getCurrency());
+        System.out.println("Despite succeed!Now "+UserName+"'s balance is : "+account[ac].getBalance()+" in "+account[ac].getCurrency());
 
     }
     public void transactionFee(double amount, int type, String operation) {
@@ -93,30 +102,53 @@ public class BankDetails {
         if(ac!=-1)
         {
             account[ac].setBalance(amount*0.01);
-            transcation[transcationCounter]= new Transaction(UserName,date.toString(),Currency,operation,amount*0.01);
-            transcationCounter++;
+            transcation[transactionCounter]= new Transaction(UserName,date.toString(),Currency,operation,amount*0.01);
+            transactionCounter++;
         }
 
     }
-    public void withdrawal(double amount, int type,String operation) {
+    public boolean withdrawal(double amount, int type,String operation) throws ParseException {
 
         int ac=searchAc(type);
-        Date date = new Date();
+        LocalDateTime date = LocalDateTime.now();
         String Currency=getType(type);
+        if(maxWithdraw<1){
         if(ac!=-1) {
-            if (account[ac].getBalance() - amount*1.01 >= 0) {
-                account[ac].setBalance(-amount*1.01);
-                transcation[transcationCounter] = new Transaction(UserName, date.toString(), Currency, operation, amount);
-                transcationCounter++;
-                transcation[transcationCounter] = new Transaction(UserName, date.toString(), Currency, "Withdraw Fee", amount*0.01);
-                transcationCounter++;
-            }
-            else
-            {
+            if (account[ac].getBalance() - amount * 1.01 >= 0) {
+                account[ac].setBalance(-amount * 1.01);
+                transcation[transactionCounter] = new Transaction(UserName, date.toString(), Currency, operation, amount);
+                transactionCounter++;
+                transcation[transactionCounter] = new Transaction(UserName, date.toString(), Currency, "Withdraw Fee", amount * 0.01);
+                transactionCounter++;
+                System.out.println("Withdraw succeed!Now " + UserName + "'s balance is : " + account[ac].getBalance() + " in " + account[ac].getCurrency());
+
+                maxWithdraw++;
+                System.out.println("counter======"+maxWithdraw);
+                return true;
+            } else {
                 System.out.println("Withdraw failed! Account doesn't enough balance..!!");
             }
         }
-        System.out.print("Now you balance is : "+account[ac].getBalance()+" in "+account[ac].getCurrency());
+
+        }
+        else {
+            System.out.println("counter==5");
+            String save= transcation[transactionCounter - 1].getDate();
+            System.out.println(save); // Tue Dec 31 23:59:59 CST 2019
+            //Date oldDate = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").parse(save);
+            SimpleDateFormat sdf3 = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+            Date d1 = null;
+
+                d1 = sdf3.parse(save);
+
+           // System.out.println(oldDate); // Tue Dec 31 23:59:59 CST 2019
+          //  if(date.getTime()-oldDate.getTime()>= 20*60*1000)
+           //// {
+          //      maxWithdraw=0;
+          //  }
+        }
+
+        return  false;
     }
 
     public int searchAc(int type)
