@@ -9,7 +9,7 @@ A Banking System Application base on the command line in the terminal and suppor
 4.Money transfer\
 5.List bank account balance\
 6.Display transaction statement\
-7.Exit the system\
+7.Exit the system
 # How to run it 
 Just clone the project and run the BankSystem.java that contain the main function.You will see the menu be showed on the terminal
 
