@@ -39,28 +39,30 @@ public class BankSystem {
 
                         }
                     }
-                    int type;
-                    System.out.println("Enter type of Currency (0 is HKD, 1 is USD, 2 is SGD) : ");
-                    type = sc.nextInt();
-
-                    if (type < 0 || type > 2) {
-                        System.out.println("Wrong type,Please input again: ");
-                        break;
-                    }
-
-
+                    int type=-1;
                     if (haveUser) {
+                        bankDetails[accountCounter-1].showAC();
+                        System.out.println("Enter type of Currency (0 is HKD, 1 is USD, 2 is SGD) : ");
+                        type = sc.nextInt();
+                        if (type < 0 || type > 2) {
+                            System.out.println("Wrong type,Please input again: ");
+                            break;
+                        }
                         if (bankDetails[id].checkAc(type)) {
-                            System.out.println("You already have this type of account,Please try again: ");
+                            System.out.println("You already have this type of currency sub account,Please try again: ");
                             break;
                         }
                         bankDetails[id].createAC(type);
-
+                        System.out.println("Create sub account succeed!!");
+                        bankDetails[accountCounter-1].showAC();
 
                     } else {
+                        System.out.println("Enter type of Currency (0 is HKD, 1 is USD, 2 is SGD) : ");
+                        type = sc.nextInt();
                         bankDetails[accountCounter] = new BankDetails(name);
                         bankDetails[accountCounter].createAC(type);
-                        System.out.println("Create Account Succeed,Please remember your ID" + "：" + accountCounter);
+                        System.out.println("Create account succeed,Please remember your ID" + "：" + accountCounter);
+                        bankDetails[accountCounter].showAC();
                         accountCounter++;
 
                     }
@@ -71,6 +73,7 @@ public class BankSystem {
                     System.out.print("Enter Your ID: ");
                     int acNo = sc.nextInt();
                     int acNoOther = 0;
+                    bankDetails[acNo].showAC();
                     System.out.print("Enter Your type of Currency (0 is HKD, 1 is USD, 2 is SGD): ");
                     type = sc.nextInt();
                     System.out.print("Enter the amount of money : ");
@@ -93,6 +96,7 @@ public class BankSystem {
                 case 3:
                     System.out.print("Enter Your ID.: ");
                     acNo = sc.nextInt();
+                    bankDetails[acNo].showAC();
                     System.out.print("Enter Your type of Currency (0 is HKD, 1 is USD, 2 is SGD): ");
                     type = sc.nextInt();
                     System.out.print("Enter the amount of money : ");
@@ -118,6 +122,7 @@ public class BankSystem {
                     boolean exitYou = false;
                     System.out.print("Enter your Account No : ");
                     acNo = sc.nextInt();
+                    bankDetails[acNo].showAC();
                     System.out.print("Enter the Account you want to transfer : ");
                     acNoOther = sc.nextInt();
                     System.out.print("Enter the type of Currency (0 is HKD, 1 is USD, 2 is SGD): ");
@@ -144,6 +149,7 @@ public class BankSystem {
                 case 5:
                     System.out.println("Enter Account No... : ");
                     acNo = sc.nextInt();
+                    bankDetails[acNo].showAC();
                     System.out.println("Enter Account Currency... (0 is HKD, 1 is USD, 2 is SGD): ");
                     type = sc.nextInt();
                     exit = false;

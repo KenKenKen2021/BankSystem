@@ -15,9 +15,6 @@ public class Account {
         return Currency;
     }
 
-    public void setCurrency(String currency) {
-        Currency = currency;
-    }
 
     public double getBalance() {
         return Balance;

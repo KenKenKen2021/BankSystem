@@ -42,6 +42,14 @@ public class BankDetails {
 
     }
 
+    public void showAC() {
+        System.out.println("You have this type of Currency of sub account : ");
+        for (int i = 0; i < accountCounter; i++) {
+            System.out.println(account[i].getCurrency());
+        }
+
+    }
+
 
     public void showBalance(int type) {
         int num = 0;
@@ -51,7 +59,8 @@ public class BankDetails {
             }
         }
         double balance = account[num].getBalance();
-        System.out.print("Your account Balance is : " + balance);
+        String currency = account[num].getCurrency();
+        System.out.print("Your account Balance is : " + balance + " in " + currency);
     }
 
     public void showTransaction() {
@@ -77,7 +86,7 @@ public class BankDetails {
             transaction[transactionCounter] = new Transaction(UserName, date.toString(), Currency, operation, amount);
             transactionCounter++;
         }
-        System.out.println("Despite succeed!Now " + UserName + "'s balance is : " + account[ac].getBalance() + " in " + account[ac].getCurrency());
+        System.out.println("Operation succeed!Now " + UserName + "'s balance is : " + account[ac].getBalance() + " in " + account[ac].getCurrency() + " after added " + amount + " of " + Currency + " !");
 
     }
 
@@ -118,19 +127,18 @@ public class BankDetails {
                         transactionCounter++;
                         transaction[transactionCounter] = new Transaction(UserName, date.toString(), Currency, "Withdraw Fee", amount * 0.01);
                         transactionCounter++;
-                        System.out.println("Withdraw succeed!Now " + UserName + "'s balance is : " + account[ac].getBalance() + " in " + account[ac].getCurrency());
+                        System.out.println("Operation succeed!Now " + UserName + "'s balance is : " + account[ac].getBalance() + " in " + account[ac].getCurrency() + " after minus " + amount + " of " + Currency + " !");
                         maxWithdraw++;
-
                         return true;
                     } else {
-                        System.out.println("Withdraw failed! Account doesn't enough balance..!!");
+                        System.out.println("Operation failed! Account doesn't enough balance..!!");
                     }
                 }
 
             } else {
                 double remainTime = (5 * 1000 * 60 - (date.getTime() - d1.getTime())) / 60000;
                 double toPrint = remainTime + 1;
-                System.out.println("Withdraw time can not be more than 5 mins.Please wait " + toPrint + " mins. to reset");
+                System.out.println("Withdraw/transfer time can not be more than 5 mins.Please wait " + toPrint + " mins. to reset");
                 return false;
             }
         } else {
