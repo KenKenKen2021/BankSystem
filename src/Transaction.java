@@ -17,11 +17,11 @@ public class Transaction {
         Operation = operation;
         Amount = amount;
     }
-    public void showTranscation()
-    {
+
+    public void showTransaction() {
 
 
-        System.out.println(Date+"              "+Currency+"                "+Operation+"             "+Amount);
+        System.out.println(Date + "              " + Currency + "                " + Operation + "             " + Amount);
 
     }
 }

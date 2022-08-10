@@ -1,16 +1,13 @@
 public class Account {
     public Account(int type) {
-        if(type==0)
-        {
-            Currency="HKD";
+        if (type == 0) {
+            Currency = "HKD";
         }
-        if(type==1)
-        {
-            Currency="USD";
+        if (type == 1) {
+            Currency = "USD";
         }
-        if(type==2)
-        {
-            Currency="SGD";
+        if (type == 2) {
+            Currency = "SGD";
         }
     }
 
@@ -30,6 +27,6 @@ public class Account {
         Balance += balance;
     }
 
-    private String  Currency;
-    private double Balance=0;
+    private String Currency;
+    private double Balance = 0;
 }
