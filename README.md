@@ -15,6 +15,7 @@ Just clone the project and run the BankSystem.java that contain the main functio
 
 # Important
 ID 0 is for the system default account that for collecting the Transfer Fee and Withdraw Fee
+The account ID will be increase by one after you create the new account like 1 2 3 4 5.It just us to test it easier.
 # Example
 1.Create Account first
 2.Deposit some money to account 
